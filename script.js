@@ -101,11 +101,11 @@ let stripeInitialized = false;
 // ⚠️ REEMPLAZA con tu clave pública real de Stripe
 // Obtén tu clave en: https://dashboard.stripe.com/apikeys
 // ============================================================
-const STRIPE_PUBLIC_KEY = 'pk_test_51T7yZHFA70zBTCYeMTTBP2LgLZV7TiGf7o51FLb9NaYGCvDi5qSqdcs7lEURhwxKy9M8EIoecrsFhsAnB89UMcQL00ddzZ44yk';
+const STRIPE_PUBLIC_KEY = 'pk_live_51T7yZHFA70zBTCYejw4I3I75JoYXmsuR6BM5tXs4lZiyhm9PdguUcq79Q1teF7S3uBpIQFkTQw90y2lTYQqeCelg00gz2jmeG1';
 // BACKEND URL (necesitas un servidor para crear PaymentIntents)
 
 const BACKEND_URL = 'http://localhost:3001/create-checkout-session';
-const STRIPE_PRICE_ID = 'price_1TMGSIFA70zBTCYeWVb4Dyyi'; //  Price ID real
+const STRIPE_PRICE_ID = 'price_1TMHU0FA70zBTCYeCnEIbvrz'; //  Price ID real
 
 // ============================================================
 // NAVIGATION
