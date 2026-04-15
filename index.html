@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="description" content="AutoElite — Venta de vehículos premium con enganches accesibles">
+<title>AutoElite — Vehículos Premium</title>
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="stylesheet" type="text/css" href="style.css"/>
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://js.stripe.com/v3/"></script>
+<script src="script.js"></script>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="mainNav">
+  <div class="nav-logo">Auto<span>Elite</span></div>
+  <div class="nav-links">
+    <span class="nav-link active" onclick="showSection('catalog')">Catálogo</span>
+    <span class="nav-link" onclick="showSection('about')">Nosotros</span>
+    <span class="nav-link" onclick="showSection('contact')">Contacto</span>
+    <button class="btn-gold nav-cta" onclick="showSection('catalog')" style="padding: 0.6rem 1.5rem; font-size: 11px;">Ver vehículos</button>
+  </div>
+</nav>
+
+<!-- HERO SECTION -->
+<section id="section-home" class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-pattern"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow anim">Experiencia premium en cada kilómetro</p>
+    <h1 class="hero-title anim anim-d1">Tu próximo<br>vehículo <em>ideal</em><br>te espera.</h1>
+    <p class="hero-sub anim anim-d2">Catálogo exclusivo de automóviles nuevos y seminuevos. Planes de enganche flexibles y financiamiento a tu medida.</p>
+    <div class="hero-actions anim anim-d3">
+      <button class="btn-gold" onclick="showSection('catalog')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        Explorar catálogo
+      </button>
+      <button class="btn-outline" onclick="showSection('contact')">Agendar cita</button>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat anim anim-d2">
+      <div class="hero-stat-num">140+</div>
+      <div class="hero-stat-label">Vehículos en stock</div>
+    </div>
+    <div class="hero-stat anim anim-d3">
+      <div class="hero-stat-num">8</div>
+      <div class="hero-stat-label">Marcas disponibles</div>
+    </div>
+    <div class="hero-stat anim anim-d4">
+      <div class="hero-stat-num">12<span style="font-size: 1rem">%</span></div>
+      <div class="hero-stat-label">Enganche mínimo</div>
+    </div>
+  </div>
+</section>
+
+<!-- CATALOG SECTION -->
+<section id="section-catalog" class="section" style="display:none; padding-top: 7rem;">
+  <div class="section-header">
+    <p class="section-eyebrow">Disponibilidad inmediata</p>
+    <h2 class="section-title">Nuestro <em>catálogo</em></h2>
+  </div>
+  <div class="filter-bar" id="filterBar">
+    <button class="filter-btn active" onclick="filterVehicles('todos', this)">Todos</button>
+    <button class="filter-btn" onclick="filterVehicles('sedan', this)">Sedán</button>
+    <button class="filter-btn" onclick="filterVehicles('suv', this)">SUV</button>
+    <button class="filter-btn" onclick="filterVehicles('pickup', this)">Pickup</button>
+    <button class="filter-btn" onclick="filterVehicles('deportivo', this)">Deportivo</button>
+    <button class="filter-btn" onclick="filterVehicles('nuevo', this)">Nuevos</button>
+    <button class="filter-btn" onclick="filterVehicles('usado', this)">Seminuevos</button>
+  </div>
+  <div class="vehicles-grid" id="vehiclesGrid"></div>
+</section>
+
+<!-- ABOUT SECTION -->
+<section id="section-about" class="section" style="display:none; padding-top: 7rem;">
+  <div class="about-grid">
+    <div class="about-img">
+      <svg viewBox="0 0 600 450" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
+        <rect width="600" height="450" fill="#111"/>
+        <rect x="60" y="180" width="480" height="120" rx="20" fill="#1a1a1a"/>
+        <ellipse cx="160" cy="300" rx="55" ry="55" fill="#222"/>
+        <ellipse cx="160" cy="300" rx="38" ry="38" fill="#c9a84c" opacity="0.15"/>
+        <ellipse cx="440" cy="300" rx="55" ry="55" fill="#222"/>
+        <ellipse cx="440" cy="300" rx="38" ry="38" fill="#c9a84c" opacity="0.15"/>
+        <rect x="80" y="190" width="440" height="100" rx="12" fill="#222"/>
+        <rect x="100" y="200" width="160" height="60" rx="8" fill="#2a2a2a"/>
+        <rect x="270" y="200" width="160" height="60" rx="8" fill="#2a2a2a"/>
+        <rect x="440" y="215" width="70" height="30" rx="6" fill="#c9a84c" opacity="0.4"/>
+        <text x="300" y="150" fill="#c9a84c" font-size="14" text-anchor="middle" opacity="0.4" font-family="serif" font-style="italic">AutoElite Premium</text>
+      </svg>
+    </div>
+    <div class="about-text">
+      <p class="section-eyebrow">Más de 15 años de experiencia</p>
+      <h2 class="section-title">Quiénes <em>somos</em></h2>
+      <p>En AutoElite nos dedicamos a conectar a las personas con el vehículo que merece su historia. Somos una concesionaria con presencia nacional, respaldada por años de trayectoria y miles de clientes satisfechos.</p>
+      <p>Nuestro equipo de asesores certificados te guiará en cada paso del proceso: desde elegir el modelo hasta gestionar tu financiamiento con las mejores condiciones del mercado.</p>
+      <div class="about-values">
+        <div class="about-value">
+          <div class="about-value-icon">✦</div>
+          <div class="about-value-title">Transparencia</div>
+          <div class="about-value-desc">Precios claros, sin sorpresas</div>
+        </div>
+        <div class="about-value">
+          <div class="about-value-icon">◈</div>
+          <div class="about-value-title">Calidad</div>
+          <div class="about-value-desc">Revisión de 150 puntos</div>
+        </div>
+        <div class="about-value">
+          <div class="about-value-icon">⬡</div>
+          <div class="about-value-title">Financiamiento</div>
+          <div class="about-value-desc">Planes desde el 12%</div>
+        </div>
+        <div class="about-value">
+          <div class="about-value-icon">◉</div>
+          <div class="about-value-title">Soporte</div>
+          <div class="about-value-desc">Atención 365 días</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT SECTION -->
+<section id="section-contact" class="section" style="display:none; padding-top: 7rem;">
+  <div class="section-header">
+    <p class="section-eyebrow">Estamos para ayudarte</p>
+    <h2 class="section-title">Contáctanos</h2>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-info">
+      <h3>Agenda tu visita o resuelve tus dudas</h3>
+      <p>Nuestro equipo de asesores está disponible para atenderte de manera personalizada. Visítanos en agencia o comunícate por cualquiera de nuestros canales.</p>
+      <div class="contact-items">
+        <div class="contact-item"><div class="contact-item-icon">📍</div> Blvd. Independencia 1234, Col. Centro, Torreón, Coah.</div>
+        <div class="contact-item"><div class="contact-item-icon">📞</div> +52 (871) 123-4567</div>
+        <div class="contact-item"><div class="contact-item-icon">✉️</div> ventas@autoelite.mx</div>
+        <div class="contact-item"><div class="contact-item-icon">🕐</div> Lun–Sáb 9am – 7pm / Dom 10am – 4pm</div>
+      </div>
+    </div>
+    <div class="contact-form">
+      <div class="form-group"><label class="form-label">Nombre completo</label><input type="text" class="form-control" placeholder="Juan Pérez"></div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Teléfono</label><input type="tel" class="form-control" placeholder="871 123 4567"></div>
+        <div class="form-group"><label class="form-label">Email</label><input type="email" class="form-control" placeholder="tu@email.com"></div>
+      </div>
+      <div class="form-group"><label class="form-label">Vehículo de interés</label><input type="text" class="form-control" placeholder="¿Qué modelo te interesa?"></div>
+      <div class="form-group"><label class="form-label">Mensaje</label><textarea class="form-control" rows="4" placeholder="Cuéntanos en qué podemos ayudarte..."></textarea></div>
+      <button class="btn-gold" style="width:100%; justify-content: center;" onclick="sendContact()">Enviar mensaje</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer" id="mainFooter" style="display:none;">
+  <div class="footer-logo">AutoElite</div>
+  <p class="footer-text">© 2025 AutoElite. Todos los derechos reservados.</p>
+  <div class="footer-links">
+    <span class="footer-link">Privacidad</span>
+    <span class="footer-link">Términos</span>
+    <span class="footer-link" onclick="showSection('contact')">Contacto</span>
+  </div>
+</footer>
+
+<!-- VEHICLE DETAIL MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-nav">
+      <button class="modal-back" onclick="closeModal()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M5 12l7 7M5 12l7-7"/></svg>
+        Volver al catálogo
+      </button>
+      <div class="nav-logo" style="font-size:1.2rem;">Auto<span>Elite</span></div>
+    </div>
+    <div class="modal-body">
+      <!-- LEFT: Vehicle detail -->
+      <div class="modal-left" id="modalLeft">
+        <div class="modal-img" id="modalMainImg"></div>
+        <div class="modal-thumbs" id="modalThumbs"></div>
+        <p class="modal-brand" id="modalBrand"></p>
+        <h2 class="modal-title" id="modalTitle"></h2>
+        <p class="modal-year" id="modalYear"></p>
+        <p class="modal-desc" id="modalDesc"></p>
+        <div class="modal-specs-grid" id="modalSpecsGrid"></div>
+        <p style="font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--text3);margin-bottom:0.8rem;">Equipamiento destacado</p>
+        <div class="features-list" id="modalFeatures"></div>
+      </div>
+      <!-- RIGHT: Purchase form -->
+      <div class="modal-right">
+        <div id="purchaseForm">
+          <h3 class="side-title">Reserva tu enganche</h3>
+          <p class="side-sub">Asegura tu vehículo con un pago inicial</p>
+          <div class="price-block" id="priceBlock"></div>
+          <div class="enganche-slider">
+            <div class="enganche-label">
+              <span>Enganche (%)</span>
+              <span id="enganchePercDisplay">20%</span>
+            </div>
+            <input type="range" id="engancheSlider" min="12" max="50" value="20" oninput="updateEnganche(this.value)">
+            <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-top:0.4rem;"><span>12% mín.</span><span>50% máx.</span></div>
+          </div>
+
+          <!-- STEPS INDICATOR -->
+          <div class="steps-indicator" id="stepsIndicator">
+            <div class="step-dot done" id="step1dot"></div>
+            <div class="step-dot" id="step2dot"></div>
+            <div class="step-dot" id="step3dot"></div>
+          </div>
+
+          <!-- STEP 1: Personal data -->
+          <div class="form-step active" id="step1">
+            <p class="step-title">Paso 1 de 3 — Datos personales</p>
+            <div class="form-group"><label class="form-label">Nombre completo *</label><input type="text" id="buyerName" class="form-control" placeholder="Tu nombre completo"></div>
+            <div class="form-row">
+              <div class="form-group"><label class="form-label">Teléfono *</label><input type="tel" id="buyerPhone" class="form-control" placeholder="871 000 0000"></div>
+              <div class="form-group"><label class="form-label">Email *</label><input type="email" id="buyerEmail" class="form-control" placeholder="tu@email.com"></div>
+            </div>
+            <div class="form-group"><label class="form-label">RFC (opcional)</label><input type="text" id="buyerRFC" class="form-control" placeholder="PEPJ800101XX0"></div>
+            <button class="btn-gold" style="width:100%;justify-content:center;margin-top:0.5rem;" onclick="goToStep(2)">Continuar →</button>
+          </div>
+
+          <!-- STEP 2: Address -->
+          <div class="form-step" id="step2">
+            <p class="step-title">Paso 2 de 3 — Dirección</p>
+            <div class="form-group"><label class="form-label">Calle y número *</label><input type="text" id="buyerStreet" class="form-control" placeholder="Av. Hidalgo 123"></div>
+            <div class="form-row">
+              <div class="form-group"><label class="form-label">Ciudad *</label><input type="text" id="buyerCity" class="form-control" placeholder="Torreón"></div>
+              <div class="form-group"><label class="form-label">Estado *</label><select id="buyerState" class="form-control">
+                <option value="">Selecciona</option>
+                <option>Coahuila</option><option>Nuevo León</option><option>Jalisco</option>
+                <option>CDMX</option><option>Sonora</option><option>Chihuahua</option>
+                <option>Veracruz</option><option>Puebla</option><option>Otro</option>
+              </select></div>
+            </div>
+            <div class="form-group"><label class="form-label">Código postal *</label><input type="text" id="buyerCP" class="form-control" placeholder="27000" maxlength="5"></div>
+            <div style="display:flex;gap:0.8rem;margin-top:0.5rem;">
+              <button class="btn-outline" style="flex:1;justify-content:center;" onclick="goToStep(1)">← Atrás</button>
+              <button class="btn-gold" style="flex:2;justify-content:center;" onclick="goToStep(3)">Continuar →</button>
+            </div>
+          </div>
+
+          <!-- STEP 3: Payment -->
+          <div class="form-step" id="step3">
+            <p class="step-title">Paso 3 de 3 — Pago del enganche</p>
+            <div id="stripeContainer">
+              <div class="form-group">
+                <label class="form-label">Nombre en la tarjeta</label>
+                <input type="text" id="cardName" class="form-control" placeholder="Como aparece en tu tarjeta">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Número de tarjeta</label>
+                <div class="stripe-element-wrap" id="cardNumberElement"></div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Vencimiento</label>
+                  <div class="stripe-element-wrap" id="cardExpiryElement"></div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">CVC</label>
+                  <div class="stripe-element-wrap" id="cardCvcElement"></div>
+                </div>
+              </div>
+              <p id="stripeError" style="color:#e24b4a;font-size:12px;margin-bottom:0.8rem;display:none;"></p>
+              <div style="display:flex;gap:0.8rem;">
+                <button class="btn-outline" style="flex:1;justify-content:center;" onclick="goToStep(2)">← Atrás</button>
+                <button class="btn-pay" id="payBtn" style="flex:2;" onclick="processPayment()">
+                  <span id="payBtnText">Pagar enganche</span>
+                  <div class="loader" id="payLoader"><div class="loader-dot"></div><div class="loader-dot"></div><div class="loader-dot"></div></div>
+                </button>
+              </div>
+              <div class="secure-note">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+                Pago seguro con cifrado SSL · Powered by Stripe
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SUCCESS SCREEN -->
+        <div class="success-screen" id="successScreen">
+          <div class="success-icon">✓</div>
+          <h3 class="success-title">¡Enganche reservado!</h3>
+          <p class="success-sub">Tu enganche ha sido procesado exitosamente. Recibirás una confirmación en tu email con los siguientes pasos para completar la compra.</p>
+          <p style="margin-top:1.5rem; font-size:12px; color:var(--text3);">Folio: <span id="folioNum" style="color:var(--gold);font-family:var(--font-display);font-size:1rem;"></span></p>
+          <button class="btn-outline" style="margin-top:2rem;" onclick="closeModal()">Ver más vehículos</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!--
+===================================================================
+INSTRUCCIONES PARA STRIPE — PROYECTO ESCOLAR
+===================================================================
+
+Para que los pagos funcionen necesitas DOS cosas:
+
+1. FRONTEND (este archivo):
+   - Ve a https://dashboard.stripe.com/apikeys
+   - Copia tu "Publishable key" (empieza con pk_test_...)
+   - Reemplaza STRIPE_PUBLIC_KEY en el JS
+
+2. BACKEND (servidor Node.js):
+   Crea un archivo server.js:
+
+   const express = require('express');
+   const stripe = require('stripe')('sk_test_TU_CLAVE_SECRETA');
+   const cors = require('cors');
+   const app = express();
+   app.use(cors());
+   app.use(express.json());
+
+   app.post('/create-payment-intent', async (req, res) => {
+     const { amount, currency, vehicle, customer } = req.body;
+     const paymentIntent = await stripe.paymentIntents.create({
+       amount, currency,
+       metadata: { vehicle, customer }
+     });
+     res.json({ clientSecret: paymentIntent.client_secret });
+   });
+
+   app.listen(3001, () => console.log('Server en puerto 3001'));
+
+   Instala con: npm install express stripe cors
+   Ejecuta con: node server.js
+
+   Luego cambia BACKEND_URL a 'http://localhost:3001/create-payment-intent'
+
+3. Para producción: despliega en Railway, Render, Vercel o similar.
+
+===================================================================
+MODO DEMO (sin Stripe):
+Si no tienes Stripe configurado, el formulario muestra un mensaje
+explicativo en el paso 3. Los pasos 1 y 2 funcionan normalmente.
+===================================================================
+-->
+</body>
+</html>
